@@ -1,5 +1,6 @@
 // criar um jogo da forca
 const { jogarSozinho } = require("./jogoDaforca.js");
+
 menuDoJogo();
 
 
@@ -16,7 +17,6 @@ function menuDoJogo(){
         opcao = prompt();
         switch (opcao) {
             case "1":
-                console.log("Jogar");
                 jogarSozinho();
 
                 break;
