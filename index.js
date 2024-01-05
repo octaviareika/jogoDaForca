@@ -27,7 +27,7 @@ function menuDoJogo(){
                 process.stdout.write("Bom jogo!\n");    
                 break;
             case "3":
-                console.log("GoodyBye!");
+                console.log("GoodBye!");
                 break;
             default:
                 console.log("Opção inválida");
@@ -69,7 +69,8 @@ function palavraUnderline(palavra){
      return palavraComUnderline;
 }
 
-function mostraSituacao(palavraComUnderline, palavra, tentativas, maximoDeTentativas, letrasQueJaForamDigitadas ){
+function mostraSituacao(palavraComUnderline, palavra, tentativas, maximoDeTentativas, letrasQueJaForamDigitadas,mensagem ){
+    console.log("Mensagem: " + mensagem);
     console.log("Palavra:" + palavraComUnderline);
     process.stdout.write("Tamanho: " + palavra.length);
     console.log("\nTentativas: " + tentativas);
@@ -82,19 +83,38 @@ function jogarSozinho(){
     var palavraComUnderline = palavraUnderline(palavra);
 
     let tentativas = 0;
-    const maximoDeTentativas = 4;
+    const maximoDeTentativas = 12;
 
     let letra = "";
     let letrasQueJaForamDigitadas = "";
     let letraEstaNaPalavra = false;
+    let mensagem = "";
+    
 
     while (palavraComUnderline != palavra && tentativas <= maximoDeTentativas){
-        
-        mostraSituacao(palavraComUnderline, palavra, tentativas, maximoDeTentativas, letrasQueJaForamDigitadas);
 
-        console.log("Digite uma letra: ");
+        console.clear();
+        
+        mostraSituacao(palavraComUnderline, palavra, tentativas, maximoDeTentativas, letrasQueJaForamDigitadas, mensagem);
+
+        console.log("Digite uma letra ou  digite '1' para arriscar a palavra: ");
         const prompt = require("prompt-sync")(); // instanciar o prompt-sync
         letra = prompt(); // lendo a letra
+
+        if (letra === "1"){
+            console.log("Digite a palavra: ");
+            const prompt = require("prompt-sync")(); // instanciar o prompt-sync
+            let palavraDigitada = prompt(); // lendo a letra
+
+            if (palavraDigitada === palavra){
+                console.log("Parabéns, você ganhou!");
+                break;
+            }
+            else {
+                //console.log("Você perdeu!");
+                break;
+            }
+        }
 
         if (letra.length !== 1 || !isNaN(letra)) {
             process.stdout.write("Por favor, digite apenas uma única letra.");
@@ -104,8 +124,10 @@ function jogarSozinho(){
         // verificar se a letra digitada está na palavra
         for(let i =0; i < palavra.length; i++){
             if (palavra[i] ===  letra ){
+                mensagem = "";
                 palavraComUnderline = palavraComUnderline.substring(0, i) + letra + palavraComUnderline.substring(i + 1);
                 letraEstaNaPalavra = true;
+                mensagem = ""
                 //console.clear();
             }
         }
@@ -114,14 +136,16 @@ function jogarSozinho(){
         if (letrasQueJaForamDigitadas.indexOf(letra) === -1){
             tentativas++;
             letrasQueJaForamDigitadas += letra + " ";
+
             //console.clear();
         }
         else {
-            console.log("Você já digitou essa letra antes!");
+            mensagem = "Você já digitou essa letra antes.";
             continue;
         }
 
         if (!letraEstaNaPalavra){
+            mensagem = "";
             tentativas++;
         }
 
