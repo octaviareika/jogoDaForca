@@ -1,4 +1,4 @@
-//const { menuDoJogo } = require("./index.js");
+const menuDoJogo = require('./index.js');
 
 function retornaPalavra(){
     const palavras = ["casa", "carro", 
@@ -103,15 +103,17 @@ function jogarSozinho(){
 
     console.log("Digite 1 para voltar ao menu ou qualquer outra tecla para sair: ");
     const prompt = require("prompt-sync")(); // instanciar o prompt-sync
-    let opcao = prompt(); // lendo a opcao
+    let opcao = prompt(); // lendo a letra
+
     if (opcao === "1"){
+        console.clear();
         menuDoJogo();
+
     }
     else {
-        console.log("Fim de jogo");
+        console.log("Saindo...");
     }
    
 }
 
 module.exports = { jogarSozinho };
-
